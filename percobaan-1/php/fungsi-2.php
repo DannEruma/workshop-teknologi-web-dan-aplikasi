@@ -4,3 +4,4 @@ function writeMsg() {
 }
 writeMsg();
 ?>
+
