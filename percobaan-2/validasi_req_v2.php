@@ -1,6 +1,6 @@
 <?php // Script Validasi ?>
 <style>
-    .error {color: #FF0000;}
+    .error {color: navy;}
 </style>
 
 <?php
@@ -13,16 +13,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nameErr = "Name is required";
     } else {
         $name = test_input($_POST["name"]);
+        if (!preg_match("/^[a-zA-Z]*$/", $name)) {
+            $nameErr = "Only letters and space are allowed";
+        }
     }
     if (empty($_POST["email"])) {
         $emailErr = "Email is reuired";
     } else {
         $email = test_input($_POST["email"]);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format";
+        }
     }
     if (empty($_POST["website"])) {
         $webErr = "Website is required";
     } else {
         $website = test_input($_POST["website"]);
+        if (!filter_var($website, FILTER_VALIDATE_URL)) {
+            $emailErr = "Invalid URL";
+        }
     }
     $comment = test_input($_POST["comment"]);
     if (empty($_POST["gender"])) {
@@ -50,6 +59,7 @@ function test_input($data) {
     <span class="error">* <?php echo $emailErr; ?></span>
     <br><br>
     Website: <input type="text" name="website">
+    <span class="error">* <?php echo $webErr?></span>
     <br><br>
     Comment: <textarea name="comment" rows="5" cols="40"></textarea>
     <br><br>
